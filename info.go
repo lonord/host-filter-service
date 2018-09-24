@@ -11,8 +11,9 @@ var (
 	appName                       = "__unknow__"
 	appVersion                    = ""
 	buildTime                     = ""
+	configPathPrefix              = "/usr/local"
 	defaultHostFetchURL           = "https://raw.githubusercontent.com/vokins/yhosts/master/hosts"
-	standardConfigPath            = "/usr/local/" + appName + "/config.yml"
+	standardConfigPath            = configPathPrefix + "/" + appName + "/config.yml"
 	standardSettingDir            = "/var/local/" + appName
 	standardSettingPath           = standardSettingDir + "/setting.json"
 	defaultListenHost             = "0.0.0.0"

@@ -5,6 +5,7 @@ import (
 	"io"
 	"os"
 	"path"
+	"time"
 
 	"github.com/emirpasic/gods/sets/linkedhashset"
 )
@@ -61,7 +62,10 @@ func updateStandardHosts() error {
 		return err
 	}
 	appSetting.standardHosts.Clear()
-	appSetting.standardHosts.Add(list)
+	for _, l := range list {
+		appSetting.standardHosts.Add(l)
+	}
+	appSetting.standardHostsUpdateDate = uint64(time.Now().Unix())
 	err = saveSetting()
 	if err != nil {
 		return err
@@ -71,7 +75,7 @@ func updateStandardHosts() error {
 
 func createDnsmasqConfig() error {
 	filePath := path.Join(appConfig.DnsmasqConfigTargetDir, appConfig.DnsmasqConfigFileName)
-	f, err := os.OpenFile(filePath, os.O_CREATE|os.O_RDWR, os.ModePerm)
+	f, err := os.OpenFile(filePath, os.O_CREATE|os.O_RDWR|os.O_TRUNC, 0666)
 	if err != nil {
 		return err
 	}

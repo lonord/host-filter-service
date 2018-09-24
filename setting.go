@@ -42,6 +42,10 @@ func checkSettingDir() error {
 func loadSetting() error {
 	b, err := ioutil.ReadFile(standardSettingPath)
 	if err != nil {
+		if os.IsNotExist(err) {
+			resolveSetting(nil)
+			return nil
+		}
 		return err
 	}
 	err = resolveSetting(b)
@@ -53,9 +57,11 @@ func loadSetting() error {
 
 func resolveSetting(b []byte) error {
 	s := settingStruct{}
-	err := json.Unmarshal(b, &s)
-	if err != nil {
-		return err
+	if b != nil {
+		err := json.Unmarshal(b, &s)
+		if err != nil {
+			return err
+		}
 	}
 	appSetting = &appSettingStruct{
 		standardHosts:           newStringSet(s.StandardHosts),
@@ -89,7 +95,7 @@ func saveSetting() error {
 	if err != nil {
 		return err
 	}
-	err = ioutil.WriteFile(standardSettingPath, b, os.ModePerm)
+	err = ioutil.WriteFile(standardSettingPath, b, 0666)
 	if err != nil {
 		return err
 	}

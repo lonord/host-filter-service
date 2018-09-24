@@ -4,6 +4,7 @@ VERSION=1.0
 APP_NAME=hfsvc
 PACKAGE_NAME=$APP_NAME
 BUILD_TIME=$(date "+%F %T")
+CONFIG_PATH_PREFIX=/etc
 
 cd $(dirname $0)
 
@@ -22,10 +23,11 @@ gobuild() {
 	-X 'main.appName=${APP_NAME}' \
 	-X 'main.appVersion=${VERSION}' \
 	-X 'main.buildTime=${BUILD_TIME}' \
+	-X 'main.configPathPrefix=${CONFIG_PATH_PREFIX}' \
 	" \
 	.
-	mkdir -p dist/tmp/etc/$APP_NAME
-	cp config.yml dist/tmp/etc/$APP_NAME/config.yml
+	mkdir -p dist/tmp${CONFIG_PATH_PREFIX}/$APP_NAME
+	cp config.yml dist/tmp${CONFIG_PATH_PREFIX}/$APP_NAME/config.yml
 }
 
 build_deb() {

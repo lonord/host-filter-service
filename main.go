@@ -20,7 +20,10 @@ func runWebServer() error {
 	if err != nil {
 		return err
 	}
-	defer deleteDnsmasqConfig()
+	defer func() {
+		deleteDnsmasqConfig()
+		restartDnsmasq()
+	}()
 	w := newWebService()
 	w.start()
 	signalChan := make(chan os.Signal, 1)
@@ -38,6 +41,7 @@ func runWebServer() error {
 			case syscall.SIGTERM:
 				infoLogger.Printf("got singal %s, exit", sig.String())
 				w.stop()
+				return nil
 			}
 		}
 	}
