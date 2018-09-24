@@ -1,0 +1,34 @@
+###############################################################################
+#                                                                             #
+#                  configure file of host filter service                      #
+#                                                                             #
+###############################################################################
+
+# fetch url of hosts formatted list file, default https://raw.githubusercontent.com/vokins/yhosts/master/hosts
+#hostFetchURL: https://raw.githubusercontent.com/vokins/yhosts/master/hosts
+
+# service server listen host, default 0.0.0.0
+#serviceListenHost: '0.0.0.0'
+
+# service server listen port, default 2019
+#serviceListenPort: 2019
+
+# directory of dnsmasq config file to generate to, default /etc/dnsmasq.d
+#dnsmasqConfigTargetDir: /etc/dnsmasq.d
+
+# name of dnsmasq config file to generate, default host_filter.conf
+#dnsmasqConfigFileName: host_filter.conf
+
+# config of dnsmasq reloading
+# <1> reloading by shell command (default)
+dnsmasqReloaderConfig:
+  type: 'cmd'
+  command: 'service dnsmasq restart'
+# <2> reloading by http request
+#dnsmasqReloaderConfig:
+#  type: 'http'
+#  url: 'http://yourdomain/path'
+#  method: 'POST'
+#  header:
+#    headerkey: 'headervalue'
+#  body: 'data'
